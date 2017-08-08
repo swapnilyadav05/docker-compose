@@ -1,0 +1,36 @@
+version: "3"
+services:
+  web:
+   image: swapnilyadav/nginx-angular:1.1 
+   depends_on:
+       - service
+   deploy:
+      replicas: 1
+   ports:
+      - 8081:80
+   links:
+      - service:service
+   networks:
+      - employee
+ 
+       
+ 
+  service:
+    image: swapnilyadav/service:1.0
+    command: ["catalina.sh","run"]
+    deploy:
+      replicas: 1
+    ports:
+      - 8082:8080
+    networks:
+      - employee
+   
+networks:
+  employee:
+ 
+
+
+
+
+
+
