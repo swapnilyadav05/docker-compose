@@ -1,0 +1,28 @@
+pipeline {
+     agent { node('docker') }
+    stages {
+      
+        stage('clone') {
+            steps {
+                git credentialsId: '1906a077-118a-448e-83f6-910c2a0a398f', url: 'https://github.com/swapnilyadav05/docker-compose.git'
+            }
+        }
+        stage ('build') {
+            steps {
+                sh ' docker -v'
+            }
+        }
+        stage ('machine') {
+            steps {
+                sh 'docker-machine -v'
+            }
+        }
+        stage ('ssh') {
+            steps {
+                sh 'docker-machine scp docker-compose.yaml master:~'
+                sh 'docker-machine ssh master "docker stack deploy -c docker-compose.yaml getstartedlab"'
+            }
+        }
+        
+    }
+}
